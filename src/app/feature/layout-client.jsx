@@ -28,7 +28,7 @@ export default function FeatureLayoutClient({ children, sidebar, featureData, us
     }
 
     return (
-        <div className="flex h-screen bg-slate-100 dark:bg-[#060d17] text-slate-900 dark:text-slate-100 overflow-hidden transition-colors duration-300">
+        <div className="flex min-h-screen w-full bg-slate-100 dark:bg-[#060d17] text-slate-900 dark:text-slate-100 overflow-hidden transition-colors duration-300">
             {sidebar}
             {sidebarOpen && (
                 <MobileSidebarClient
@@ -47,7 +47,7 @@ export default function FeatureLayoutClient({ children, sidebar, featureData, us
                     navItems={navItems}
                     userInfo={userInfo}
                 />
-                <main className="flex-1 overflow-y-auto p-5 lg:p-6">{children}</main>
+                <main className="flex-1 overflow-y-auto px-4 py-4 lg:px-5 lg:py-5">{children}</main>
             </div>
         </div>
     );

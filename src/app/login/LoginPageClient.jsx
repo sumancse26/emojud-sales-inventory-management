@@ -46,14 +46,7 @@ export default function LoginPageClient({ currentYear, demoAccount, liveUrl }) {
                 <div className="flex items-start justify-between gap-3">
                     <div>
                         <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">Demo Access</p>
-                        <a
-                            href={liveUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="mt-1 block text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4"
-                        >
-                            {liveUrl}
-                        </a>
+
                     </div>
                     <button
                         type="button"

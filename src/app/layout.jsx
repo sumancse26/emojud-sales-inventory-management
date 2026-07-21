@@ -30,7 +30,7 @@ export default async function RootLayout({ children }) {
                     }}
                 />
             </head>
-            <body className="min-h-full flex flex-col">
+            <body className="m-0 min-h-full flex flex-col">
                 {children} <ToastProvider />
             </body>
         </html>
