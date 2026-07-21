@@ -4,9 +4,9 @@ import ToastProvider from '@/components/ToastProvider';
 
 export const metadata = {
     title: 'Emojud ERP — Smart Multi-Shop Management System',
-
     description:
         'Emojud is a modern ERP solution for managing shops, employees, inventory, purchase, sales, accounts, and payroll in one powerful platform.',
+    metadataBase: new URL('https://emojud.vercel.app'),
     icons: {
         icon: "/smart-erp-rounded.png"
     },

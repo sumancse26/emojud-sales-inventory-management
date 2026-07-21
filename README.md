@@ -6,6 +6,16 @@ Crafted by Suman Sarker.
 
 ---
 
+## Live Demo
+
+- Live URL: https://emojud.vercel.app/
+- Recruiter username: `suman`
+- Recruiter password: `12345678`
+
+The root route redirects to the login screen, so recruiters can open the live URL and sign in directly with the demo account above.
+
+---
+
 ## Overview
 
 This application includes modules for:
@@ -63,7 +73,7 @@ CLOUDINARY_API_SECRET=your_api_secret
 npm run dev
 ```
 
-Open http://localhost:3000 and the app will redirect to the dashboard area.
+Open http://localhost:3000 and the app will redirect to the login screen.
 
 ---
 
@@ -106,7 +116,6 @@ src/
 
 Planned improvements include:
 
-- Connecting the UI to real backend APIs and databases
 - Expanding forms for create/edit workflows
 - Improving reporting and analytics
 - Strengthening role and permission management

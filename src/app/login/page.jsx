@@ -1,5 +1,11 @@
 import LoginPageClient from './LoginPageClient';
 
+const LIVE_URL = 'https://emojud.vercel.app/';
+const DEMO_ACCOUNT = {
+    username: 'suman',
+    password: '12345678',
+};
+
 const FEATURES = [
     {
         icon: (
@@ -128,7 +134,11 @@ export default function LoginPage() {
                             <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400 border border-slate-300 rounded-full px-2 py-0.5">ERP</span>
                         </div>
 
-                        <LoginPageClient currentYear={new Date().getFullYear()} />
+                        <LoginPageClient
+                            currentYear={new Date().getFullYear()}
+                            demoAccount={DEMO_ACCOUNT}
+                            liveUrl={LIVE_URL}
+                        />
                     </div>
                 </div>
 

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { loginAction } from './action';
 
-export default function LoginPageClient({ currentYear }) {
+export default function LoginPageClient({ currentYear, demoAccount, liveUrl }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPw, setShowPw] = useState(false);
@@ -30,11 +30,48 @@ export default function LoginPageClient({ currentYear }) {
         }
     }
 
+    function fillDemoCredentials() {
+        setUsername(demoAccount.username);
+        setPassword(demoAccount.password);
+        setShowPw(true);
+    }
+
     return (
         <div className="w-full max-w-sm">
             {/* Title */}
             <h1 className="text-2xl font-bold text-slate-900 mb-1">Welcome back</h1>
             <p className="text-sm text-slate-500 mb-8">Sign in to your account to continue</p>
+
+            <div className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4">
+                <div className="flex items-start justify-between gap-3">
+                    <div>
+                        <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">Demo Access</p>
+                        <a
+                            href={liveUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-1 block text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4"
+                        >
+                            {liveUrl}
+                        </a>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={fillDemoCredentials}
+                        className="shrink-0 rounded-full border border-emerald-300 bg-white px-3 py-1.5 text-[11px] font-semibold text-emerald-700 transition-colors hover:bg-emerald-100"
+                    >
+                        Use demo account
+                    </button>
+                </div>
+                <div className="mt-3 grid grid-cols-1 gap-2 text-sm text-slate-700 sm:grid-cols-2">
+                    <p>
+                        <span className="font-semibold text-slate-900">Username:</span> {demoAccount.username}
+                    </p>
+                    <p>
+                        <span className="font-semibold text-slate-900">Password:</span> {demoAccount.password}
+                    </p>
+                </div>
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                 {/* Username */}
