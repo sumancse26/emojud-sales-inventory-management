@@ -6,9 +6,8 @@ build
 dist
 
 # Environment variables
-.env*.local
-.env.development
-.env.test
+.env*
+!.env.example
 
 # WhatsApp sessions & caches (persisted via Docker volumes)
 .wwebjs_auth

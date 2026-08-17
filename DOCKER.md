@@ -57,10 +57,12 @@ docker compose version
 
 ## ⚙️ Configuration & Environment Variables
 
-Copy the provided template `.env.example` to create your active `.env` file:
+The Dockerfile is completely credential-free and relies strictly on dynamic environment variable injection at build and runtime.
+
+Copy `.env.example` to create your active `.env.production` file for production deployment:
 
 ```bash
-cp .env.example .env
+cp .env.example .env.production
 ```
 
 ### Environment Variable Reference
@@ -71,7 +73,7 @@ cp .env.example .env
 | `JWT_SECRET` | **Yes** | `random_secret_string_32_chars+` | Secret key for signing and verifying JWT tokens |
 | `JWT_ACCESS_EXPIRES` | No | `30m` | Expiration time for access tokens |
 | `JWT_REFRESH_EXPIRES` | No | `30d` | Expiration time for refresh tokens |
-| `NEXT_PUBLIC_API_URL` | No | `http://localhost:3000` | Public URL endpoint for client-side API requests |
+| `NEXT_PUBLIC_API_URL` | No | `/api` | Public URL endpoint for client-side API requests |
 | `NEXT_PUBLIC_API_IMG_URL` | No | `http://localhost:3000` | Public image root URL |
 | `CLOUDINARY_CLOUD_NAME` | No | `your_cloud_name` | Cloudinary cloud name for media uploads |
 | `CLOUDINARY_API_KEY` | No | `your_api_key` | Cloudinary API key |
@@ -158,7 +160,7 @@ docker compose up -d --build
 
 ### Accessing the Container Shell
 ```bash
-docker compose exec emojud-app sh
+docker compose exec emojud-app /bin/bash
 ```
 
 ---
@@ -187,7 +189,7 @@ docker run -d \
   --name emojud-app \
   --restart unless-stopped \
   -p 3000:3000 \
-  --env-file .env \
+  --env-file .env.production \
   -v emojud_whatsapp_auth:/app/.wwebjs_auth \
   -v emojud_whatsapp_cache:/app/.wwebjs_cache \
   emojud-sales-inventory:latest
@@ -315,24 +317,24 @@ sudo setsebool -P httpd_can_network_connect 1
 
 ---
 
-### Step 5: Clone Repository & Configure Environment
+### Step 5: Upload Project / Clone Repository & Configure Environment
+
+As your regular (non-root) user:
 
 ```bash
-# Create the docker_host directory (or ~/docker_host depending on your preference)
-sudo mkdir -p /docker_host
-sudo chown -R $USER:$USER /docker_host
-cd /docker_host
+# Navigate to your home directory or desired workspace
+cd ~
 
-# Clone your project repository into docker_host
+# Clone or upload your project repository
 git clone <YOUR_GIT_REPO_URL> emojud
-cd /docker_host/emojud
+cd ~/emojud
 
-# Configure environment variables
-cp .env.example .env
-nano .env
+# Configure environment variables for production
+cp .env.example .env.production
+nano .env.production
 ```
 
-*Paste your production `DATABASE_URL`, `JWT_SECRET`, Cloudinary credentials, and WhatsApp settings inside `.env`.*
+*Paste your production `DATABASE_URL`, `JWT_SECRET`, Cloudinary credentials, and WhatsApp settings inside `.env.production`.*
 
 ---
 
@@ -410,7 +412,7 @@ sudo certbot --nginx -d emojud.yourdomain.com
 Whenever you push new code updates to your git repository:
 
 ```bash
-cd /docker_host/emojud
+cd ~/emojud
 git pull origin main
 docker compose up -d --build
 ```

@@ -3,11 +3,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-/api}
+        - NEXT_PUBLIC_API_IMG_URL=${NEXT_PUBLIC_API_IMG_URL:-}
+        - NEXT_PUBLIC_IMG_SERVER_DOMAIN=${NEXT_PUBLIC_IMG_SERVER_DOMAIN:-}
     container_name: emojud-app
     restart: unless-stopped
     ports:
       - "${PORT:-3000}:3000"
     env_file:
+      - path: .env.production
+        required: false
       - path: .env
         required: false
       - path: .env.local
