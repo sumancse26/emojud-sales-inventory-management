@@ -154,7 +154,7 @@ docker compose down
 
 ### Rebuilding After Code Updates
 ```bash
-git pull origin main
+git pull origin master
 docker compose up -d --build
 ```
 
@@ -413,7 +413,7 @@ Whenever you push new code updates to your git repository:
 
 ```bash
 cd ~/emojud
-git pull origin main
+git pull origin master
 docker compose up -d --build
 ```
 
