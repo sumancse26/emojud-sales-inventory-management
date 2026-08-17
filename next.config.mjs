@@ -4,6 +4,7 @@ const productionDomain = '';
 // const productionDomain = 'cyberneticsitbd.com';
 
 const nextConfig = {
+    output: 'standalone',
     reactCompiler: true,
     experimental: {
         serverActions: {

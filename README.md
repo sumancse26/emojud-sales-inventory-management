@@ -69,11 +69,18 @@ CLOUDINARY_API_SECRET=your_api_secret
 
 ### 3. Run the application
 
+#### Using Local Node.js:
 ```bash
 npm run dev
 ```
 
-Open http://localhost:3000 and the app will redirect to the login screen.
+#### Using Docker:
+```bash
+cp .env.example .env
+docker compose up -d --build
+```
+
+Open http://localhost:3000 and the app will redirect to the login screen. For full Docker details, see [DOCKER.md](file:///d:/projects/emojud-sales-inventory-management/DOCKER.md).
 
 ---
 
