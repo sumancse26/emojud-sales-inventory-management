@@ -3,7 +3,7 @@
 # =============================================================================
 # Stage 1: Base Image
 # =============================================================================
-FROM node:20-bookworm-slim AS base
+FROM node:22-bookworm-slim AS base
 WORKDIR /app
 SHELL ["/bin/bash", "-c"]
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
@@ -19,8 +19,11 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Install dependencies with npm cache mount for high build performance
-RUN --mount=type=cache,target=/root/.npm \
-    npm ci
+RUN npm ci --include=optional
+
+RUN npm install --no-save --include=optional \
+    @tailwindcss/oxide-linux-x64-gnu@$(node -p "require('./node_modules/@tailwindcss/oxide/package.json').version") \
+    lightningcss-linux-x64-gnu@$(node -p "require('./node_modules/lightningcss/package.json').version")
 
 # =============================================================================
 # Stage 3: Build Next.js Application
@@ -43,13 +46,12 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build standalone Next.js bundle with BuildKit cache
-RUN --mount=type=cache,target=/app/.next/cache \
-    npm run build
+RUN npm run build
 
 # =============================================================================
 # Stage 4: Production Runner (Lean & Secure Runtime)
 # =============================================================================
-FROM node:20-bookworm-slim AS runner
+FROM node:22-bookworm-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production \
@@ -96,3 +98,4 @@ EXPOSE 3000
 # Use dumb-init for PID 1 signal management & process reaping
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["node", "server.js"]
+

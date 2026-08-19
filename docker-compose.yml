@@ -1,42 +1,46 @@
 services:
-  emojud-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-/api}
-        - NEXT_PUBLIC_API_IMG_URL=${NEXT_PUBLIC_API_IMG_URL:-}
-        - NEXT_PUBLIC_IMG_SERVER_DOMAIN=${NEXT_PUBLIC_IMG_SERVER_DOMAIN:-}
-    container_name: emojud-app
-    restart: unless-stopped
-    ports:
-      - "${PORT:-3000}:3000"
-    env_file:
-      - path: .env.production
-        required: false
-      - path: .env
-        required: false
-      - path: .env.local
-        required: false
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - HOSTNAME=0.0.0.0
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    volumes:
-      # Persist WhatsApp authentication session and cache across restarts
-      - emojud_whatsapp_auth:/app/.wwebjs_auth
-      - emojud_whatsapp_cache:/app/.wwebjs_cache
-    healthcheck:
-      test: ["CMD-SHELL", "node -e \"require('http').get('http://127.0.0.1:3000/api/auth/login', (r) => {process.exit(r.statusCode === 405 || r.statusCode === 200 ? 0 : 1)}).on('error', () => process.exit(1))\""]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
+    emojud-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-/api}
+                - NEXT_PUBLIC_API_IMG_URL=${NEXT_PUBLIC_API_IMG_URL:-}
+                - NEXT_PUBLIC_IMG_SERVER_DOMAIN=${NEXT_PUBLIC_IMG_SERVER_DOMAIN:-}
+        container_name: emojud-app
+        restart: unless-stopped
+        ports:
+            - '127.0.0.1:${PORT:-3000}:3000'
+        env_file:
+            - path: .env.production
+              required: false
+            - path: .env
+              required: false
+            - path: .env.local
+              required: false
+        environment:
+            - NODE_ENV=production
+            - PORT=3000
+            - HOSTNAME=0.0.0.0
+            - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+            - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+        volumes:
+            # Persist WhatsApp authentication session and cache across restarts
+            - emojud_whatsapp_auth:/app/.wwebjs_auth
+            - emojud_whatsapp_cache:/app/.wwebjs_cache
+        healthcheck:
+            test:
+                [
+                    'CMD-SHELL',
+                    'node -e "require(''http'').get(''http://127.0.0.1:3000/api/auth/login'', (r) => {process.exit(r.statusCode === 405 || r.statusCode === 200 ? 0 : 1)}).on(''error'', () => process.exit(1))"'
+                ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 20s
 
 volumes:
-  emojud_whatsapp_auth:
-    name: emojud_whatsapp_auth
-  emojud_whatsapp_cache:
-    name: emojud_whatsapp_cache
+    emojud_whatsapp_auth:
+        name: emojud_whatsapp_auth
+    emojud_whatsapp_cache:
+        name: emojud_whatsapp_cache
