@@ -1,0 +1,42 @@
+name: Deploy Emojud
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy to Rocky Linux
+    runs-on: self-hosted
+
+    steps:
+      - name: Deploy application
+        run: |
+          set -e
+
+          echo "======================================"
+          echo "Starting Emojud deployment"
+          echo "======================================"
+
+          cd ~/apps/nextjs-app
+
+          echo "Updating source code..."
+          git fetch origin master
+          git reset --hard origin/master
+
+          echo "Building Docker image..."
+          docker compose build
+
+          echo "Starting application..."
+          docker compose up -d
+
+          echo "Checking container..."
+          docker compose ps
+
+          echo "Checking application..."
+          curl -f http://127.0.0.1:3000/login
+
+          echo "======================================"
+          echo "Deployment completed successfully"
+          echo "======================================"
